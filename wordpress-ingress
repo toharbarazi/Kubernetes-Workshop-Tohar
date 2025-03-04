@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wordpress-ingress
+  namespace: tohar
+spec:
+  ingressClassName: tohar
+  rules:
+  - host: a64b3aa61934a4ff6828f019db000efb-166582676.us-east-1.elb.amazonaws.com
+    http:
+      paths:
+      - path: /(grafana|login)(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: prometheus-shahar-grafana
+            port:
+              number: 80
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress
+            port:
+              number: 80
+

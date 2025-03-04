@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wordpress-db
+  namespace: tohar
+spec:
+  serviceName: "wordpress-db"  # Headless service for stable DNS names
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-db
+  template:
+    metadata:
+      labels:
+        app: wordpress-db
+    spec:
+      containers:
+      - name: mariadb
+        image: 992382545251.dkr.ecr.us-east-1.amazonaws.com/tohar/wordpress:mariadb-latest
+        #command: ["--default-authentication-plugin=mysql_native_password"]
+        args:
+            - "--default-authentication-plugin=mysql_native_password"   
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "somewordpress"
+        - name: MYSQL_DATABASE
+          value: "wordpress"
+        - name: MYSQL_USER
+          value: "wordpress"
+        - name: MYSQL_PASSWORD
+          value: "wordpress"
+        volumeMounts:
+        - name: mariadb-data
+          mountPath: /var/lib/mysql
+      volumes: 
+      - name: mariadb-data
+        persistentVolumeClaim:
+          claimName: mariadb-data-pvc
+      imagePullSecrets:
+        - name: ecr-secret
