@@ -9,5 +9,6 @@ spec:
   resources: 
     requests: 
       storage: 5Gi
-  storageClassName: ebs-tohar
+  #storageClassName: ebs-tohar
+  storageClassName: ebs-sc-nitzanim
 
