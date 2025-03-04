@@ -10,7 +10,7 @@ metadata:
     alb.ingress.kubernetes.io/group.name: wordpress-group
 spec:
   rules:
-    - host: <your-wordpress-domain-or-ip>
+    - host: a64b3aa61934a4ff6828f019db000efb-166582676.us-east-1.elb.amazonaws.com
       http:
         paths:
           - path: /
